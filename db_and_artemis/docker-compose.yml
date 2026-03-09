@@ -12,6 +12,10 @@ services:
       - "127.0.0.1:5432:5432"
     volumes:
       - postgis_data:/var/lib/postgresql/data
+    networks:
+      infrastructure-network:
+        aliases:
+          - postgresql.host
     logging:
       driver: "json-file"
       options:
@@ -30,6 +34,8 @@ services:
       - "127.0.0.1:5050:80"
     volumes:
       - pgadmin:/var/lib/pgadmin
+    networks:
+      - infrastructure-network
     logging:
       driver: "json-file"
       options:
@@ -51,6 +57,8 @@ services:
       - "127.0.0.1:61616:61616"
       - "127.0.0.1:61613:61613"
       - "127.0.0.1:8161:8161"
+    networks:
+      - infrastructure-network
     logging:
       driver: "json-file"
       options:
@@ -63,3 +71,6 @@ volumes:
     driver: local
   artemis_instance:
     driver: local
+networks:
+  infrastructure-network:
+    name: infrastructure-network
