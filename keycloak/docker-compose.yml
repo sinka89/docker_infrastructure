@@ -2,6 +2,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
+    hostname: keycloak.host
     restart: unless-stopped
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=${KC_BOOTSTRAP_ADMIN_USERNAME}
@@ -13,11 +14,14 @@ services:
     ports:
       - 9080:8080
     networks:
-      - infrastructure-network
+      infrastructure-network:
+        aliases:
+          - keycloak.host
     command:
       - start
       - --http-enabled=true
       - --proxy-headers=xforwarded
+      - --http-relative-path=/auth
       - --hostname-strict=false
 networks:
   infrastructure-network:
