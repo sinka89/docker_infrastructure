@@ -6,7 +6,7 @@ services:
     extra_hosts:
       - "keycloak.host:127.0.0.1"
       - "host.docker.internal:host-gateway"
-      - "gsrvrnpktm:192.168.0.1"
+      - "gsrvrnpktm:${NGINX_MAIN_DNS_RESOLVER}"
     networks:
       - infrastructure-network
     ports:
