@@ -9,9 +9,10 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD}
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     volumes:
       - postgis_data:/var/lib/postgresql/data
+      - ${PG_DATA_HOST}:/tmp/data
     networks:
       infrastructure-network:
         aliases:
@@ -31,7 +32,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE}
     ports:
-      - "127.0.0.1:5050:80"
+      - "5050:80"
     volumes:
       - pgadmin:/var/lib/pgadmin
     networks:
@@ -54,9 +55,9 @@ services:
     volumes:
       - artemis_instance:/var/lib/artemis-instance
     ports:
-      - "127.0.0.1:61616:61616"
-      - "127.0.0.1:61613:61613"
-      - "127.0.0.1:8161:8161"
+      - "61616:61616"
+      - "61613:61613"
+      - "8161:8161"
     networks:
       - infrastructure-network
     logging:

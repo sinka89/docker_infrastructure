@@ -3,6 +3,10 @@ services:
     image: nginx:latest
     container_name: nginx
     restart: unless-stopped
+    extra_hosts:
+      - "keycloak.host:127.0.0.1"
+      - "host.docker.internal:host-gateway"
+      - "gsrvrnpktm:192.168.0.1"
     networks:
       - infrastructure-network
     ports:
@@ -10,10 +14,11 @@ services:
       - 443:443
     environment:
       - NGINX_MAIN_DOMAIN=${NGINX_MAIN_DOMAIN}
+      - NGINX_APP_NAME=${NGINX_APP_NAME}
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - ./certs/certificate.crt:/etc/nginx/ssl/certificate.crt
-      - ./certs/private_key.key:/etc/nginx/ssl/private_key.key
+      - ${NGINX_CERTS_LOCATION}/certificate.crt:/etc/nginx/ssl/certificate.crt
+      - ${NGINX_CERTS_LOCATION}/private_key.key:/etc/nginx/ssl/private_key.key
     command: >
       sh -c "envsubst \"`env | awk -F = '{printf \" \\\\$%s\", $1}'`\" < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf &&
          nginx -g 'daemon off;'"
