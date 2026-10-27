@@ -17,6 +17,7 @@ services:
       - NGINX_APP_NAME=${NGINX_APP_NAME}
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+      - ${NGINX_STATIC_FILE_LOCATION}:/usr/share/nginx/html:ro
       - ${NGINX_CERTS_LOCATION}/certificate.crt:/etc/nginx/ssl/certificate.crt
       - ${NGINX_CERTS_LOCATION}/private_key.key:/etc/nginx/ssl/private_key.key
     command: >
